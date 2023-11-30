@@ -5,13 +5,16 @@ adjustable offset that can be used to add borders or make the node appear 3D.
 
 ## Examples
 
-![Example Screenshot Image](images/screenshot.png)
+![Example Screenshot Image](https://raw.githubusercontent.com/robertdodd/bevy_round_ui/master/images/screenshot.png)
 
-The [simple](/examples/simple.rs) example shows how to use it in its simplest form. The
-[buttons](/examples/buttons.rs) example shows how to use it with interactive buttons and a panel. The
-[autosize](/examples/autosize.rs) example shows how to use it with flexibly-sized elements and the `autosize` feature.
-The [circle](/examples/circle.rs) example shows how to make a circle shape. The [shapes](/examples/shapes.rs) example
-shows a number of possible shapes.
+The [simple](https://github.com/robertdodd/bevy_round_ui/blob/master/examples/simple.rs) example shows how to use it
+in its simplest form. The [buttons](https://github.com/robertdodd/bevy_round_ui/blob/master/examples/buttons.rs)
+example shows how to use it with interactive buttons and a panel. The
+[autosize](https://github.com/robertdodd/bevy_round_ui/blob/master/examples/autosize.rs) example shows how to use it
+with flexibly-sized elements and the `autosize` feature. The
+[circle](https://github.com/robertdodd/bevy_round_ui/blob/master/examples/circle.rs) example shows how to make a
+circle shape. The [shapes](https://github.com/robertdodd/bevy_round_ui/blob/master/examples/shapes.rs) example shows a
+number of possible shapes.
 
 ## Basic Usage
 
@@ -61,7 +64,7 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundUiMaterial>>)
 
 The `autosize` Cargo feature (enabled by default) adds support for auto-sizing material nodes in various ways.
 
-![Autosize Example Image](images/autosize.png)
+![Autosize Example Image](https://raw.githubusercontent.com/robertdodd/bevy_round_ui/master/images/autosize.png)
 
 The following components are available to enable auto-sizing in various ways:
 
@@ -94,18 +97,22 @@ re-using a `Handle<RoundUiMaterial>` and need all nodes to have the same size.
 
 ## Shapes
 
-The [shapes](/examples/shapes.rs) example demonstrates a number of possible shapes.
+The [shapes](https://github.com/robertdodd/bevy_round_ui/blob/master/examples/shapes.rs) example demonstrates a number
+of possible shapes.
 
 > NOTE: Bordered circles are not perfect.
 
-![Shapes Example Image](images/shapes.png)
+![Shapes Example Image](https://raw.githubusercontent.com/robertdodd/bevy_round_ui/master/images/shapes.png)
 
 ## License
 
 Dual-licensed under either of
 
-- Apache License, Version 2.0, ([LICENSE-APACHE](/LICENSE-APACHE) or https://www.apache.org/licenses/LICENSE-2.0)
-- MIT license ([LICENSE-MIT](/LICENSE-MIT) or https://opensource.org/licenses/MIT)
+- Apache License, Version 2.0,
+  ([LICENSE-APACHE](https://github.com/robertdodd/bevy_round_ui/blob/master/LICENSE-APACHE) or
+  https://www.apache.org/licenses/LICENSE-2.0)
+- MIT license ([LICENSE-MIT](https://github.com/robertdodd/bevy_round_ui/blob/master/LICENSE-MIT) or
+  https://opensource.org/licenses/MIT)
 
 at your option.
 
