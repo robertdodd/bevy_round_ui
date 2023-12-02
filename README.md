@@ -104,6 +104,12 @@ of possible shapes.
 
 ![Shapes Example Image](https://raw.githubusercontent.com/robertdodd/bevy_round_ui/master/images/shapes.png)
 
+## Compatible Bevy versions
+
+| `bevy_round_ui` | `bevy` |
+|:----------------|:-------|
+| `0.1`           | `0.12` |
+
 ## License
 
 Dual-licensed under either of
