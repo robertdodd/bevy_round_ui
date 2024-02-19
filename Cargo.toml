@@ -18,7 +18,7 @@ default = ["autosize"]
 autosize = []
 
 [dependencies]
-bevy = "0.12"
+bevy = "0.13"
 
 [[example]]
 name = "autosize"
