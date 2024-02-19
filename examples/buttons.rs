@@ -216,7 +216,9 @@ fn handle_button_actions(
             match action {
                 ButtonAction::Play => (),
                 ButtonAction::Settings => (),
-                ButtonAction::Quit => app_exit_events.send(AppExit),
+                ButtonAction::Quit => {
+                    app_exit_events.send(AppExit);
+                }
             }
         }
     }
