@@ -108,6 +108,7 @@ of possible shapes.
 
 | `bevy_round_ui` | `bevy` |
 |:----------------|:-------|
+| `0.2`           | `0.13` |
 | `0.1`           | `0.12` |
 
 ## License
