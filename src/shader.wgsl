@@ -55,18 +55,16 @@ fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
     // SDF distance in border area
     let dBorder = sdfRoundedBox(uv, input.size, input.border_radius);
 
-    // define the alpha value. Opaque if within the button or border area,
-    // transparent otherwise.
-    let alpha = select(1., 0., (dButton > 0. && dBorder > 0.));
-    // define the final color. Use `input.border_color` if within border
-    // radius, otherwise `input.background_color`.
+    // define the alpha value. Smoothly blend to avoid aliasing
+    let alpha = min(-min(dButton, dBorder), 1.0);
+    
+    // define the final color. Use `input.background_color` if not within border
+    // radius, otherwise smoothly blend from `input.background_color` to `input.border_color`.
     let color = select(
         input.background_color,
-        input.border_color,
+        mix(input.background_color, input.border_color, clamp(dButton, 0.0, 1.0)),
         (dButton > 0. && dBorder <= 0.),
     );
-
-    // TODO: Add color smoothing
 
     return vec4<f32>(color.rgb, alpha * color.a);
 }
