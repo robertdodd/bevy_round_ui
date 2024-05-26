@@ -23,10 +23,6 @@ pub struct RoundUiMaterial {
     /// E.g. Vec4::new((top, left, bottom, right)
     #[uniform(0)]
     pub offset: Vec4,
-
-    /// The size of the material on screen in pixels
-    #[uniform(0)]
-    pub size: Vec2,
 }
 
 impl Default for RoundUiMaterial {
@@ -35,7 +31,6 @@ impl Default for RoundUiMaterial {
             background_color: Color::WHITE,
             border_color: Color::WHITE,
             border_radius: Vec4::splat(0.),
-            size: Vec2::new(1., 1.),
             offset: Vec4::splat(0.),
         }
     }

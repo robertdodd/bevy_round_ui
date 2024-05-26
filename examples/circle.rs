@@ -1,3 +1,6 @@
+//! This example demonstrates how a circle shape can be achieved by setting [`RoundUiMaterial::offset`] to the same
+//! size as the node.
+
 use bevy::prelude::*;
 
 use bevy_round_ui::prelude::*;
@@ -10,22 +13,25 @@ fn main() {
 }
 
 const CIRCLE_DIAMETER: f32 = 200.;
+const CIRCLE_OFFSET_SIZE: f32 = 10.;
+
+const CIRCLE_BACKGROUND_COLOR: &str = "#F76161";
+const CIRCLE_BORDER_COLOR: &str = "#A53A3D";
 
 fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundUiMaterial>>) {
     // Camera so we can see UI
     commands.spawn(Camera2dBundle::default());
 
-    // Add the material
+    // Add the material asset.
     // NOTE: To make a circle, the width, height and border radius should be equal
     let circle_material = materials.add(RoundUiMaterial {
-        background_color: Color::hex("#F76161").unwrap(),
-        border_color: Color::hex("#A53A3D").unwrap(),
+        background_color: Color::hex(CIRCLE_BACKGROUND_COLOR).unwrap(),
+        border_color: Color::hex(CIRCLE_BORDER_COLOR).unwrap(),
         border_radius: RoundUiBorder::all(CIRCLE_DIAMETER).into(),
-        size: Vec2::new(CIRCLE_DIAMETER, CIRCLE_DIAMETER),
-        offset: RoundUiOffset::bottom(10.0).into(),
+        offset: RoundUiOffset::bottom(CIRCLE_OFFSET_SIZE).into(),
     });
 
-    // Spawn the material in the middle of the screen
+    // Spawn a round material node in the middle of the screen
     commands
         .spawn(NodeBundle {
             style: Style {

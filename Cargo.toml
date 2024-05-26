@@ -13,17 +13,6 @@ readme = "README.md"
 exclude = ["images/"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-[features]
-default = ["autosize"]
-autosize = []
 
 [dependencies]
 bevy = "0.13"
-
-[[example]]
-name = "autosize"
-required-features = ["autosize"]
-
-[[example]]
-name = "buttons"
-required-features = ["autosize"]

@@ -1,3 +1,5 @@
+//! This example demonstrates spawning a single rounded rect masterial node in the center of the screen.
+
 use bevy::prelude::*;
 
 use bevy_round_ui::prelude::*;
@@ -9,19 +11,18 @@ fn main() {
         .run();
 }
 
+const PANEL_WIDTH: f32 = 200.0;
+const PANEL_HEIGHT: f32 = 200.0;
+
 fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundUiMaterial>>) {
     // Camera so we can see UI
     commands.spawn(Camera2dBundle::default());
-
-    let panel_width = 200.0;
-    let panel_height = 200.0;
 
     // Add the material
     let panel_material = materials.add(RoundUiMaterial {
         background_color: Color::hex("#F76161").unwrap(),
         border_color: Color::hex("#A53A3D").unwrap(),
         border_radius: RoundUiBorder::all(20.0).into(),
-        size: Vec2::new(panel_width, panel_height),
         offset: RoundUiOffset::bottom(10.0).into(),
     });
 
@@ -41,8 +42,8 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundUiMaterial>>)
             p.spawn(MaterialNodeBundle {
                 material: panel_material,
                 style: Style {
-                    width: Val::Px(panel_width),
-                    height: Val::Px(panel_height),
+                    width: Val::Px(PANEL_WIDTH),
+                    height: Val::Px(PANEL_HEIGHT),
                     ..default()
                 },
                 ..default()
