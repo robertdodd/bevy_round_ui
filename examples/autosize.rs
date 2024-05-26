@@ -1,6 +1,8 @@
+//! This example demonstrates how RoundUiMaterial nodes automaticall adjust when their node size changes.
+
 use bevy::prelude::*;
 
-use bevy_round_ui::{autosize::*, prelude::*};
+use bevy_round_ui::prelude::*;
 
 fn main() {
     App::new()
@@ -26,16 +28,31 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundUiMaterial>>)
             ..default()
         })
         .with_children(|p| {
-            p.spawn((
-                RoundUiAutosizeMaterial,
-                RoundUiAutosizeNodePadding,
-                MaterialNodeBundle {
+            p.spawn(MaterialNodeBundle {
+                material: materials.add(RoundUiMaterial {
+                    background_color: Color::PINK,
+                    border_color: Color::WHITE,
+                    border_radius: RoundUiBorder::all(20.).into(),
+                    offset: RoundUiOffset::all(6.).into(),
+                }),
+                style: Style {
+                    width: Val::Percent(50.),
+                    height: Val::Percent(50.),
+                    align_items: AlignItems::Center,
+                    justify_content: JustifyContent::Center,
+                    overflow: Overflow::clip(),
+                    padding: UiRect::all(Val::Px(12.)),
+                    ..default()
+                },
+                ..default()
+            })
+            .with_children(|p| {
+                p.spawn(MaterialNodeBundle {
                     material: materials.add(RoundUiMaterial {
-                        background_color: Color::PINK,
+                        background_color: Color::hex("5cb3af").unwrap(),
                         border_color: Color::WHITE,
-                        border_radius: RoundUiBorder::all(20.).into(),
-                        size: Vec2::default(),
-                        offset: RoundUiOffset::all(6.).into(),
+                        border_radius: RoundUiBorder::all(20.0).into(),
+                        offset: RoundUiOffset::all(6.0).into(),
                     }),
                     style: Style {
                         width: Val::Percent(50.),
@@ -43,34 +60,11 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundUiMaterial>>)
                         align_items: AlignItems::Center,
                         justify_content: JustifyContent::Center,
                         overflow: Overflow::clip(),
+                        padding: UiRect::all(Val::Px(12.)),
                         ..default()
                     },
                     ..default()
-                },
-            ))
-            .with_children(|p| {
-                p.spawn((
-                    RoundUiAutosizeMaterial,
-                    RoundUiAutosizeNodePadding,
-                    MaterialNodeBundle {
-                        material: materials.add(RoundUiMaterial {
-                            background_color: Color::hex("5cb3af").unwrap(),
-                            border_color: Color::WHITE,
-                            border_radius: RoundUiBorder::all(20.0).into(),
-                            size: Vec2::default(),
-                            offset: RoundUiOffset::all(6.0).into(),
-                        }),
-                        style: Style {
-                            width: Val::Percent(50.),
-                            height: Val::Percent(50.),
-                            align_items: AlignItems::Center,
-                            justify_content: JustifyContent::Center,
-                            overflow: Overflow::clip(),
-                            ..default()
-                        },
-                        ..default()
-                    },
-                ))
+                })
                 .with_children(|p| {
                     p.spawn(TextBundle::from_section(
                         "Resize the window to see how flexible I am",

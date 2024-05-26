@@ -1,3 +1,6 @@
+//! This example demonstrates different shapes that can be achieved by updating the [`RoundUiMaterial::border_radius`]
+//! property.
+
 use bevy::prelude::*;
 
 use bevy_round_ui::prelude::*;
@@ -9,8 +12,8 @@ fn main() {
         .run();
 }
 
-const SIZE: f32 = 100.;
-const MARGIN: f32 = 20.;
+const SHAPE_SIZE: f32 = 100.;
+const SPACER_SIZE: f32 = 20.;
 
 fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundUiMaterial>>) {
     // Camera so we can see UI
@@ -21,7 +24,6 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundUiMaterial>>)
         materials.add(RoundUiMaterial {
             background_color: Color::hex("#F76161").unwrap(),
             border_radius: RoundUiBorder::all(20.0).into(),
-            size: Vec2::new(SIZE, SIZE),
             ..default()
         }),
         // Round rect with offset
@@ -29,7 +31,6 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundUiMaterial>>)
             background_color: Color::hex("#F76161").unwrap(),
             border_color: Color::hex("#A53A3D").unwrap(),
             border_radius: RoundUiBorder::all(20.0).into(),
-            size: Vec2::new(SIZE, SIZE),
             offset: RoundUiOffset::bottom(10.0).into(),
         }),
         // Round rect with border
@@ -37,7 +38,6 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundUiMaterial>>)
             background_color: Color::hex("#F76161").unwrap(),
             border_color: Color::hex("#FFFFFF").unwrap(),
             border_radius: RoundUiBorder::all(20.0).into(),
-            size: Vec2::new(SIZE, SIZE),
             offset: RoundUiOffset::all(4.0).into(),
         }),
         // Round rect with offset to bottom right
@@ -45,7 +45,6 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundUiMaterial>>)
             background_color: Color::hex("#F76161").unwrap(),
             border_color: Color::hex("#A53A3D").unwrap(),
             border_radius: RoundUiBorder::all(20.0).into(),
-            size: Vec2::new(SIZE, SIZE),
             offset: RoundUiOffset::bottom_right(5.0).into(),
         }),
     ];
@@ -53,16 +52,14 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundUiMaterial>>)
         // Circle without offset
         materials.add(RoundUiMaterial {
             background_color: Color::hex("#F76161").unwrap(),
-            border_radius: RoundUiBorder::all(SIZE).into(),
-            size: Vec2::new(SIZE, SIZE),
+            border_radius: RoundUiBorder::all(SHAPE_SIZE).into(),
             ..default()
         }),
         // Circle with offset
         materials.add(RoundUiMaterial {
             background_color: Color::hex("#F76161").unwrap(),
             border_color: Color::hex("#A53A3D").unwrap(),
-            border_radius: RoundUiBorder::all(SIZE).into(),
-            size: Vec2::new(SIZE, SIZE),
+            border_radius: RoundUiBorder::all(SHAPE_SIZE).into(),
             offset: RoundUiOffset::bottom(10.0).into(),
         }),
         // Circle with border
@@ -70,21 +67,19 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundUiMaterial>>)
         materials.add(RoundUiMaterial {
             background_color: Color::hex("#F76161").unwrap(),
             border_color: Color::hex("#FFFFFF").unwrap(),
-            border_radius: RoundUiBorder::all(SIZE).into(),
-            size: Vec2::new(SIZE, SIZE),
+            border_radius: RoundUiBorder::all(SHAPE_SIZE).into(),
             offset: RoundUiOffset::all(4.0).into(),
         }),
         // Circle with border-radius longer than sides
         materials.add(RoundUiMaterial {
             background_color: Color::hex("#F76161").unwrap(),
             border_color: Color::hex("#A53A3D").unwrap(),
-            border_radius: RoundUiBorder::all(SIZE * 2.).into(),
-            size: Vec2::new(SIZE, SIZE),
+            border_radius: RoundUiBorder::all(SHAPE_SIZE * 2.).into(),
             offset: RoundUiOffset::bottom(10.0).into(),
         }),
     ];
 
-    // Spawn the material in the middle of the screen
+    // Spawn two rows of material nodes in the center of the screen
     commands
         .spawn(NodeBundle {
             style: Style {
@@ -113,9 +108,9 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundUiMaterial>>)
                         p.spawn(MaterialNodeBundle {
                             material: material.clone(),
                             style: Style {
-                                margin: UiRect::all(Val::Px(MARGIN)),
-                                width: Val::Px(SIZE),
-                                height: Val::Px(SIZE),
+                                margin: UiRect::all(Val::Px(SPACER_SIZE)),
+                                width: Val::Px(SHAPE_SIZE),
+                                height: Val::Px(SHAPE_SIZE),
                                 ..default()
                             },
                             ..default()
