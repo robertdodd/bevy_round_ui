@@ -47,37 +47,37 @@ impl RoundUiOffset {
 
     pub fn left(amount: f32) -> Self {
         Self {
-            top: 0.0,
+            top: 0.,
             left: amount,
-            bottom: 0.0,
-            right: 0.0,
+            bottom: 0.,
+            right: 0.,
         }
     }
 
     pub fn right(amount: f32) -> Self {
         Self {
-            top: 0.0,
-            left: 0.0,
-            bottom: 0.0,
+            top: 0.,
+            left: 0.,
+            bottom: 0.,
             right: amount,
         }
     }
 
     pub fn bottom(amount: f32) -> Self {
         Self {
-            top: 0.0,
-            left: 0.0,
+            top: 0.,
+            left: 0.,
             bottom: amount,
-            right: 0.0,
+            right: 0.,
         }
     }
 
     pub fn top(amount: f32) -> Self {
         Self {
             top: amount,
-            left: 0.0,
-            bottom: 0.0,
-            right: 0.0,
+            left: 0.,
+            bottom: 0.,
+            right: 0.,
         }
     }
 
@@ -85,33 +85,33 @@ impl RoundUiOffset {
         Self {
             top: amount,
             left: amount,
-            bottom: 0.0,
-            right: 0.0,
+            bottom: 0.,
+            right: 0.,
         }
     }
 
     pub fn top_right(amount: f32) -> Self {
         Self {
             top: amount,
-            left: 0.0,
-            bottom: 0.0,
+            left: 0.,
+            bottom: 0.,
             right: amount,
         }
     }
 
     pub fn bottom_left(amount: f32) -> Self {
         Self {
-            top: 0.0,
+            top: 0.,
             left: amount,
             bottom: amount,
-            right: 0.0,
+            right: 0.,
         }
     }
 
     pub fn bottom_right(amount: f32) -> Self {
         Self {
-            top: 0.0,
-            left: 0.0,
+            top: 0.,
+            left: 0.,
             bottom: amount,
             right: amount,
         }
@@ -188,35 +188,71 @@ impl RoundUiBorder {
     pub fn top_left(radius: f32) -> Self {
         Self {
             top_left: radius,
-            top_right: 0.0,
-            bottom_left: 0.0,
-            bottom_right: 0.0,
+            top_right: 0.,
+            bottom_left: 0.,
+            bottom_right: 0.,
         }
     }
 
     pub fn top_right(radius: f32) -> Self {
         Self {
-            top_left: 0.0,
+            top_left: 0.,
             top_right: radius,
-            bottom_left: 0.0,
-            bottom_right: 0.0,
+            bottom_left: 0.,
+            bottom_right: 0.,
         }
     }
 
     pub fn bottom_left(radius: f32) -> Self {
         Self {
-            top_left: 0.0,
-            top_right: 0.0,
+            top_left: 0.,
+            top_right: 0.,
             bottom_left: radius,
-            bottom_right: 0.0,
+            bottom_right: 0.,
         }
     }
 
     pub fn bottom_right(radius: f32) -> Self {
         Self {
-            top_left: 0.0,
-            top_right: 0.0,
-            bottom_left: 0.0,
+            top_left: 0.,
+            top_right: 0.,
+            bottom_left: 0.,
+            bottom_right: radius,
+        }
+    }
+
+    pub fn top(radius: f32) -> Self {
+        Self {
+            top_left: radius,
+            top_right: radius,
+            bottom_left: 0.,
+            bottom_right: 0.,
+        }
+    }
+
+    pub fn bottom(radius: f32) -> Self {
+        Self {
+            top_left: 0.,
+            top_right: 0.,
+            bottom_left: radius,
+            bottom_right: radius,
+        }
+    }
+
+    pub fn left(radius: f32) -> Self {
+        Self {
+            top_left: radius,
+            top_right: 0.,
+            bottom_left: radius,
+            bottom_right: 0.,
+        }
+    }
+
+    pub fn right(radius: f32) -> Self {
+        Self {
+            top_left: 0.,
+            top_right: radius,
+            bottom_left: 0.,
             bottom_right: radius,
         }
     }
