@@ -69,7 +69,7 @@ of possible shapes that can be achieved by changing the `RoundUiMaterial::border
 
 | `bevy_round_ui` | `bevy` |
 |:----------------|:-------|
-| `1.0`           | `0.13` |
+| `1.x`           | `0.13` |
 | `0.2`           | `0.13` |
 | `0.1`           | `0.12` |
 
