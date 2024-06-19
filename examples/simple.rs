@@ -6,7 +6,7 @@ use bevy_round_ui::prelude::*;
 
 fn main() {
     App::new()
-        .add_plugins((DefaultPlugins, RoundUiPlugin))
+        .add_plugins((DefaultPlugins, BevyRoundUiDefaultPlugins))
         .add_systems(Startup, setup)
         .run();
 }
@@ -14,12 +14,12 @@ fn main() {
 const PANEL_WIDTH: f32 = 200.0;
 const PANEL_HEIGHT: f32 = 200.0;
 
-fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundUiMaterial>>) {
+fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMaterial>>) {
     // Camera so we can see UI
     commands.spawn(Camera2dBundle::default());
 
     // Add the material
-    let panel_material = materials.add(RoundUiMaterial {
+    let panel_material = materials.add(RoundRectUiMaterial {
         background_color: Color::hex("#F76161").unwrap(),
         border_color: Color::hex("#A53A3D").unwrap(),
         border_radius: RoundUiBorder::all(20.0).into(),

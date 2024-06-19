@@ -7,7 +7,7 @@ use bevy_round_ui::prelude::*;
 
 fn main() {
     App::new()
-        .add_plugins((DefaultPlugins, RoundUiPlugin))
+        .add_plugins((DefaultPlugins, BevyRoundUiDefaultPlugins))
         .add_systems(Startup, setup)
         .run();
 }
@@ -18,13 +18,13 @@ const CIRCLE_OFFSET_SIZE: f32 = 10.;
 const CIRCLE_BACKGROUND_COLOR: &str = "#F76161";
 const CIRCLE_BORDER_COLOR: &str = "#A53A3D";
 
-fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundUiMaterial>>) {
+fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMaterial>>) {
     // Camera so we can see UI
     commands.spawn(Camera2dBundle::default());
 
     // Add the material asset.
     // NOTE: To make a circle, the width, height and border radius should be equal
-    let circle_material = materials.add(RoundUiMaterial {
+    let circle_material = materials.add(RoundRectUiMaterial {
         background_color: Color::hex(CIRCLE_BACKGROUND_COLOR).unwrap(),
         border_color: Color::hex(CIRCLE_BORDER_COLOR).unwrap(),
         border_radius: RoundUiBorder::all(CIRCLE_DIAMETER).into(),
