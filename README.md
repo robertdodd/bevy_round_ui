@@ -17,7 +17,9 @@ example shows how to make a circle shape. The
 shapes. The [superellipse](https://github.com/robertdodd/bevy_round_ui/blob/master/examples/superellipse.rs) example
 shows how to use the superellipse material. The
 [compare](https://github.com/robertdodd/bevy_round_ui/blob/master/examples/compare.rs) example allows you to toggle
-between the `round_rect` and `superellipse` materials to see the difference between them.
+between the `round_rect` and `superellipse` materials to see the difference between them. The
+[compare](https://github.com/robertdodd/bevy_round_ui/blob/master/examples/superellipse_transparency.rs) example
+demonstrates the `superellipse` material working with transparency.
 
 ## Features
 
