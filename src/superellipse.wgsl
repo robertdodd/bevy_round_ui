@@ -67,14 +67,14 @@ fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
     );
 
     // define the alpha and color values depending on the distance sign.
-    let alpha = select(1., 0., d > 0.);
+    let alpha = select(input.background_color.a, 0., d > 0.);
     var col: vec3f = select(input.background_color.rgb, vec3f(0.), d > 0.0);
 
     // // Debug: Show distance
     // col *= 1.0 - exp(-6.0 * abs(d));
     // col *= 0.8 + 0.2 * cos(150.0 * d);
 
-    // Apply border color if `a > 0.0` and return
+    // Apply border color
     var result = vec4f(col, alpha);
     if is_border {
         let border_thickness_uv = input.border_thickness / min_size;
