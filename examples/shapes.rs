@@ -7,7 +7,7 @@ use bevy_round_ui::prelude::*;
 
 fn main() {
     App::new()
-        .add_plugins((DefaultPlugins, RoundUiPlugin))
+        .add_plugins((DefaultPlugins, BevyRoundUiDefaultPlugins))
         .add_systems(Startup, setup)
         .run();
 }
@@ -15,33 +15,33 @@ fn main() {
 const SHAPE_SIZE: f32 = 100.;
 const SPACER_SIZE: f32 = 20.;
 
-fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundUiMaterial>>) {
+fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMaterial>>) {
     // Camera so we can see UI
     commands.spawn(Camera2dBundle::default());
 
     let rect_materials = [
         // Round rect without offset
-        materials.add(RoundUiMaterial {
+        materials.add(RoundRectUiMaterial {
             background_color: Color::hex("#F76161").unwrap(),
             border_radius: RoundUiBorder::all(20.0).into(),
             ..default()
         }),
         // Round rect with offset
-        materials.add(RoundUiMaterial {
+        materials.add(RoundRectUiMaterial {
             background_color: Color::hex("#F76161").unwrap(),
             border_color: Color::hex("#A53A3D").unwrap(),
             border_radius: RoundUiBorder::all(20.0).into(),
             offset: RoundUiOffset::bottom(10.0).into(),
         }),
         // Round rect with border
-        materials.add(RoundUiMaterial {
+        materials.add(RoundRectUiMaterial {
             background_color: Color::hex("#F76161").unwrap(),
             border_color: Color::hex("#FFFFFF").unwrap(),
             border_radius: RoundUiBorder::all(20.0).into(),
             offset: RoundUiOffset::all(4.0).into(),
         }),
         // Round rect with offset to bottom right
-        materials.add(RoundUiMaterial {
+        materials.add(RoundRectUiMaterial {
             background_color: Color::hex("#F76161").unwrap(),
             border_color: Color::hex("#A53A3D").unwrap(),
             border_radius: RoundUiBorder::all(20.0).into(),
@@ -50,13 +50,13 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundUiMaterial>>)
     ];
     let circle_materials = [
         // Circle without offset
-        materials.add(RoundUiMaterial {
+        materials.add(RoundRectUiMaterial {
             background_color: Color::hex("#F76161").unwrap(),
             border_radius: RoundUiBorder::all(SHAPE_SIZE).into(),
             ..default()
         }),
         // Circle with offset
-        materials.add(RoundUiMaterial {
+        materials.add(RoundRectUiMaterial {
             background_color: Color::hex("#F76161").unwrap(),
             border_color: Color::hex("#A53A3D").unwrap(),
             border_radius: RoundUiBorder::all(SHAPE_SIZE).into(),
@@ -64,14 +64,14 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundUiMaterial>>)
         }),
         // Circle with border
         // NOTE: The border is not perfect
-        materials.add(RoundUiMaterial {
+        materials.add(RoundRectUiMaterial {
             background_color: Color::hex("#F76161").unwrap(),
             border_color: Color::hex("#FFFFFF").unwrap(),
             border_radius: RoundUiBorder::all(SHAPE_SIZE).into(),
             offset: RoundUiOffset::all(4.0).into(),
         }),
         // Circle with border-radius longer than sides
-        materials.add(RoundUiMaterial {
+        materials.add(RoundRectUiMaterial {
             background_color: Color::hex("#F76161").unwrap(),
             border_color: Color::hex("#A53A3D").unwrap(),
             border_radius: RoundUiBorder::all(SHAPE_SIZE * 2.).into(),

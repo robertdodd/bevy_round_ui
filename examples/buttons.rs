@@ -6,7 +6,7 @@ use bevy_round_ui::prelude::*;
 
 fn main() {
     App::new()
-        .add_plugins((DefaultPlugins, RoundUiPlugin))
+        .add_plugins((DefaultPlugins, BevyRoundUiDefaultPlugins))
         .init_resource::<ButtonStyle>()
         .add_systems(Startup, setup)
         .add_systems(Update, (handle_button_interactions, handle_button_actions))
@@ -26,11 +26,11 @@ const BUTTON_OFFSET_SIZE: f32 = 5.0;
 /// Resource containing styles for different button states.
 #[derive(Resource)]
 pub struct ButtonStyle {
-    pub default_material: Handle<RoundUiMaterial>,
+    pub default_material: Handle<RoundRectUiMaterial>,
     pub default_padding: UiRect,
-    pub hover_material: Handle<RoundUiMaterial>,
+    pub hover_material: Handle<RoundRectUiMaterial>,
     pub hover_padding: UiRect,
-    pub press_material: Handle<RoundUiMaterial>,
+    pub press_material: Handle<RoundRectUiMaterial>,
     pub press_padding: UiRect,
 }
 
@@ -38,27 +38,27 @@ impl FromWorld for ButtonStyle {
     fn from_world(world: &mut World) -> Self {
         let cell = world.cell();
         let mut materials = cell
-            .get_resource_mut::<Assets<RoundUiMaterial>>()
+            .get_resource_mut::<Assets<RoundRectUiMaterial>>()
             .expect("Failed to get Assets<RoundRectMaterial>");
 
         let border_radius = RoundUiBorder::all(15.);
 
         Self {
-            default_material: materials.add(RoundUiMaterial {
+            default_material: materials.add(RoundRectUiMaterial {
                 background_color: Color::hex("#F76161").unwrap(),
                 border_color: Color::hex("#A53A3D").unwrap(),
                 border_radius: border_radius.into(),
                 offset: RoundUiOffset::bottom(BUTTON_OFFSET_SIZE).into(),
             }),
             default_padding: UiRect::bottom(Val::Px(BUTTON_OFFSET_SIZE)),
-            hover_material: materials.add(RoundUiMaterial {
+            hover_material: materials.add(RoundRectUiMaterial {
                 background_color: Color::hex("#F61A39").unwrap(),
                 border_color: Color::hex("#A0102A").unwrap(),
                 border_radius: border_radius.into(),
                 offset: RoundUiOffset::bottom(BUTTON_OFFSET_SIZE).into(),
             }),
             hover_padding: UiRect::bottom(Val::Px(BUTTON_OFFSET_SIZE)),
-            press_material: materials.add(RoundUiMaterial {
+            press_material: materials.add(RoundRectUiMaterial {
                 background_color: Color::hex("#A0102A").unwrap(),
                 border_color: Color::NONE,
                 border_radius: border_radius.into(),
@@ -85,14 +85,14 @@ pub struct RoundButton;
 fn setup(
     mut commands: Commands,
     button_style: Res<ButtonStyle>,
-    mut materials: ResMut<Assets<RoundUiMaterial>>,
+    mut materials: ResMut<Assets<RoundRectUiMaterial>>,
 ) {
     // Camera so we can see UI
     commands.spawn(Camera2dBundle::default());
 
     // Define a material for the panel.
     // This material looks like it has a border, because we applied an equal offset to all sides.
-    let panel_material = materials.add(RoundUiMaterial {
+    let panel_material = materials.add(RoundRectUiMaterial {
         background_color: Color::hex(PANEL_BACKGROUND_COLOR).unwrap(),
         border_color: Color::hex(PANEL_BORDER_COLOR).unwrap(),
         border_radius: RoundUiBorder::all(20.0).into(),
@@ -196,7 +196,7 @@ fn spawn_button(
 #[allow(clippy::type_complexity)]
 fn handle_button_interactions(
     mut interaction_query: Query<
-        (&Interaction, &mut Handle<RoundUiMaterial>, &mut Style),
+        (&Interaction, &mut Handle<RoundRectUiMaterial>, &mut Style),
         (Changed<Interaction>, With<RoundButton>),
     >,
     button_style: Res<ButtonStyle>,

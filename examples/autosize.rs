@@ -6,12 +6,12 @@ use bevy_round_ui::prelude::*;
 
 fn main() {
     App::new()
-        .add_plugins((DefaultPlugins, RoundUiPlugin))
+        .add_plugins((DefaultPlugins, BevyRoundUiDefaultPlugins))
         .add_systems(Startup, setup)
         .run();
 }
 
-fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundUiMaterial>>) {
+fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMaterial>>) {
     // Camera so we can see UI
     commands.spawn(Camera2dBundle::default());
 
@@ -29,7 +29,7 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundUiMaterial>>)
         })
         .with_children(|p| {
             p.spawn(MaterialNodeBundle {
-                material: materials.add(RoundUiMaterial {
+                material: materials.add(RoundRectUiMaterial {
                     background_color: Color::PINK,
                     border_color: Color::WHITE,
                     border_radius: RoundUiBorder::all(20.).into(),
@@ -48,7 +48,7 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundUiMaterial>>)
             })
             .with_children(|p| {
                 p.spawn(MaterialNodeBundle {
-                    material: materials.add(RoundUiMaterial {
+                    material: materials.add(RoundRectUiMaterial {
                         background_color: Color::hex("5cb3af").unwrap(),
                         border_color: Color::WHITE,
                         border_radius: RoundUiBorder::all(20.0).into(),
