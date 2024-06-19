@@ -16,10 +16,8 @@ fn main() {
 const PANEL_BACKGROUND_COLOR: &str = "#5cb3af";
 const PANEL_BORDER_COLOR: &str = "#ffffff";
 
-const PANEL_WIDTH: f32 = 400.0;
-const PANEL_HEIGHT: f32 = 400.0;
+const PANEL_WIDTH: f32 = 300.0;
 
-const BUTTON_WIDTH: f32 = 200.0;
 const BUTTON_HEIGHT: f32 = 40.0;
 const BUTTON_OFFSET_SIZE: f32 = 5.0;
 
@@ -85,18 +83,18 @@ pub struct RoundButton;
 fn setup(
     mut commands: Commands,
     button_style: Res<ButtonStyle>,
-    mut materials: ResMut<Assets<RoundRectUiMaterial>>,
+    mut superellipse_materials: ResMut<Assets<SuperellipseUiMaterial>>,
 ) {
     // Camera so we can see UI
     commands.spawn(Camera2dBundle::default());
 
     // Define a material for the panel.
     // This material looks like it has a border, because we applied an equal offset to all sides.
-    let panel_material = materials.add(RoundRectUiMaterial {
+    let panel_material = superellipse_materials.add(SuperellipseUiMaterial {
         background_color: Color::hex(PANEL_BACKGROUND_COLOR).unwrap(),
         border_color: Color::hex(PANEL_BORDER_COLOR).unwrap(),
         border_radius: RoundUiBorder::all(20.0).into(),
-        offset: RoundUiOffset::all(6.0).into(),
+        border_thickness: 6.0,
     });
 
     // Spawn the screen layout, containing a centered panel with menu items
@@ -116,7 +114,7 @@ fn setup(
                 material: panel_material,
                 style: Style {
                     width: Val::Px(PANEL_WIDTH),
-                    height: Val::Px(PANEL_HEIGHT),
+                    padding: UiRect::axes(Val::Px(40.), Val::Px(60.)),
                     flex_direction: FlexDirection::Column,
                     align_items: AlignItems::Center,
                     justify_content: JustifyContent::Center,
@@ -130,7 +128,7 @@ fn setup(
                     style: Style {
                         align_items: AlignItems::Center,
                         justify_content: JustifyContent::Center,
-                        margin: UiRect::bottom(Val::Px(30.)),
+                        margin: UiRect::bottom(Val::Px(40.)),
                         ..default()
                     },
                     ..default()
@@ -169,9 +167,9 @@ fn spawn_button(
                 style: Style {
                     align_items: AlignItems::Center,
                     justify_content: JustifyContent::Center,
-                    width: Val::Px(BUTTON_WIDTH),
+                    width: Val::Percent(100.),
                     height: Val::Px(BUTTON_HEIGHT),
-                    margin: UiRect::bottom(Val::Px(10.)),
+                    margin: UiRect::top(Val::Px(10.)),
                     ..default()
                 },
                 ..default()
