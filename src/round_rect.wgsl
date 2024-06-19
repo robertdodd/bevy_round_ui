@@ -16,7 +16,7 @@ var<uniform> input: RoundUiMaterial;
 // MIT License. © 2023 Inigo Quilez, Munrocket
 // https://gist.github.com/munrocket/30e645d584b5300ee69295e54674b3e4
 // https://compute.toys/view/398
-fn sdfRoundedBox(p: vec2f, b: vec2f, r: vec4f) -> f32 {
+fn sdf_rounded_rect(p: vec2f, b: vec2f, r: vec4f) -> f32 {
     var x = r.x;
     var y = r.y;
     x = select(r.z, r.x, p.x > 0.);
@@ -33,35 +33,35 @@ fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
     let uv = in.uv * in.size * 2.0 - in.size;
 
     // position offset to account for border
-    let borderOffset = vec2<f32>(
+    let border_offset = vec2<f32>(
         input.offset.w - input.offset.y, // right - left
         input.offset.z - input.offset.x, // bottom - top
     );
 
     // SDF distance in the inner button area
     // The inner button size is equal to actual size - offset size
-    let buttonSize = in.size - vec2<f32>(
+    let size = in.size - vec2<f32>(
         input.offset.y + input.offset.w, // left + right
         input.offset.x + input.offset.z, // top + bottom
     );
-    let dButton = sdfRoundedBox(
-        uv + borderOffset,
-        buttonSize,
+    let d_shape = sdf_rounded_rect(
+        uv + border_offset,
+        size,
         input.border_radius,
     );
 
     // SDF distance in border area
-    let dBorder = sdfRoundedBox(uv, in.size, input.border_radius);
+    let d_border = sdf_rounded_rect(uv, in.size, input.border_radius);
 
     // define the alpha value. Opaque if within the button or border area,
     // transparent otherwise.
-    let alpha = select(1., 0., (dButton > 0. && dBorder > 0.));
+    let alpha = select(1., 0., (d_shape > 0. && d_border > 0.));
     // define the final color. Use `input.border_color` if within border
     // radius, otherwise `input.background_color`.
     let color = select(
         input.background_color,
         input.border_color,
-        (dButton > 0. && dBorder <= 0.),
+        (d_shape > 0. && d_border <= 0.),
     );
 
     // TODO: Add color smoothing
