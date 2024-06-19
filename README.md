@@ -46,9 +46,6 @@ fn main() {
 fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMaterial>>) {
     commands.spawn(Camera2dBundle::default());
 
-    let panel_width = 200.0;
-    let panel_height = 200.0;
-
     commands.spawn(MaterialNodeBundle {
         material: materials.add(RoundRectUiMaterial {
             background_color: Color::hex("#F76161").unwrap().into(),
@@ -57,8 +54,8 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMateria
             offset: RoundUiOffset::bottom(10.0).into(),
         }),
         style: Style {
-            width: Val::Px(panel_width),
-            height: Val::Px(panel_height),
+            width: Val::Px(200.),
+            height: Val::Px(200.),
             ..default()
         },
         ..default()
