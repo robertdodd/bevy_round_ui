@@ -1,11 +1,28 @@
-use bevy::{prelude::*, reflect::TypePath, render::render_resource::*};
+use bevy::{asset::load_internal_asset, prelude::*, reflect::TypePath, render::render_resource::*};
 
-use crate::prelude::{RoundUiBorder, RoundUiOffset};
+use crate::types::*;
 
-pub const SHADER_HANDLE: Handle<Shader> = Handle::weak_from_u128(66552904175742639684);
+pub const ROUND_RECT_SHADER_HANDLE: Handle<Shader> = Handle::weak_from_u128(66552904175742639684);
 
+/// Plugin which adds a `RoundRectUiMaterial` to the app.
+pub struct RoundRectMaterialPlugin;
+
+impl Plugin for RoundRectMaterialPlugin {
+    fn build(&self, app: &mut App) {
+        load_internal_asset!(
+            app,
+            ROUND_RECT_SHADER_HANDLE,
+            "round_rect.wgsl",
+            Shader::from_wgsl
+        );
+
+        app.add_plugins(UiMaterialPlugin::<RoundRectUiMaterial>::default());
+    }
+}
+
+/// UI Material that renders a rounded rect with an optional offset color and position.
 #[derive(AsBindGroup, Asset, TypePath, Debug, Clone)]
-pub struct RoundUiMaterial {
+pub struct RoundRectUiMaterial {
     /// The background color of the material
     #[uniform(0)]
     pub background_color: Color,
@@ -25,24 +42,24 @@ pub struct RoundUiMaterial {
     pub offset: Vec4,
 }
 
-impl Default for RoundUiMaterial {
+impl Default for RoundRectUiMaterial {
     fn default() -> Self {
         Self {
             background_color: Color::WHITE,
-            border_color: Color::WHITE,
+            border_color: Color::NONE,
             border_radius: Vec4::splat(0.),
             offset: Vec4::splat(0.),
         }
     }
 }
 
-impl UiMaterial for RoundUiMaterial {
+impl UiMaterial for RoundRectUiMaterial {
     fn fragment_shader() -> ShaderRef {
-        SHADER_HANDLE.into()
+        ROUND_RECT_SHADER_HANDLE.into()
     }
 }
 
-impl RoundUiMaterial {
+impl RoundRectUiMaterial {
     pub fn get_padding(&self) -> UiRect {
         let offset: RoundUiOffset = self.offset.into();
         let border: RoundUiBorder = self.border_radius.into();
