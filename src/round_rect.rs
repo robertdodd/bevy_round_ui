@@ -1,4 +1,4 @@
-use bevy::{asset::load_internal_asset, prelude::*, reflect::TypePath, render::render_resource::*};
+use bevy::{asset::load_internal_asset, prelude::*, render::render_resource::*};
 
 use crate::types::*;
 
@@ -21,7 +21,8 @@ impl Plugin for RoundRectMaterialPlugin {
 }
 
 /// UI Material that renders a rounded rect with an optional offset color and position.
-#[derive(AsBindGroup, Asset, TypePath, Debug, Clone)]
+#[derive(AsBindGroup, Asset, Debug, Clone, Reflect)]
+#[reflect(Default, Debug)]
 pub struct RoundRectUiMaterial {
     /// The background color of the material
     #[uniform(0)]

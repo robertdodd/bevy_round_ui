@@ -1,4 +1,4 @@
-use bevy::{asset::load_internal_asset, prelude::*, reflect::TypePath, render::render_resource::*};
+use bevy::{asset::load_internal_asset, prelude::*, render::render_resource::*};
 
 pub const SUPERELLIPSE_SHADER_HANDLE: Handle<Shader> = Handle::weak_from_u128(84071151984186645753);
 
@@ -22,7 +22,8 @@ impl Plugin for SuperellipseMaterialPlugin {
 ///
 /// NOTE: A minimum border radius is enforced by the shader, due to a limitation in the approximate superellipse SDF
 /// function. If one of your border radii is too small, is will appear larger.
-#[derive(AsBindGroup, Asset, TypePath, Debug, Clone)]
+#[derive(AsBindGroup, Asset, Debug, Clone, Reflect)]
+#[reflect(Default, Debug)]
 pub struct SuperellipseUiMaterial {
     /// The background color of the material
     #[uniform(0)]
