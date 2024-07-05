@@ -22,28 +22,28 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMateria
     let rect_materials = [
         // Round rect without offset
         materials.add(RoundRectUiMaterial {
-            background_color: Color::hex("#F76161").unwrap(),
+            background_color: Srgba::hex("#F76161").unwrap().into(),
             border_radius: RoundUiBorder::all(20.0).into(),
             ..default()
         }),
         // Round rect with offset
         materials.add(RoundRectUiMaterial {
-            background_color: Color::hex("#F76161").unwrap(),
-            border_color: Color::hex("#A53A3D").unwrap(),
+            background_color: Srgba::hex("#F76161").unwrap().into(),
+            border_color: Srgba::hex("#A53A3D").unwrap().into(),
             border_radius: RoundUiBorder::all(20.0).into(),
             offset: RoundUiOffset::bottom(10.0).into(),
         }),
         // Round rect with border
         materials.add(RoundRectUiMaterial {
-            background_color: Color::hex("#F76161").unwrap(),
-            border_color: Color::hex("#FFFFFF").unwrap(),
+            background_color: Srgba::hex("#F76161").unwrap().into(),
+            border_color: Srgba::hex("#FFFFFF").unwrap().into(),
             border_radius: RoundUiBorder::all(20.0).into(),
             offset: RoundUiOffset::all(4.0).into(),
         }),
         // Round rect with offset to bottom right
         materials.add(RoundRectUiMaterial {
-            background_color: Color::hex("#F76161").unwrap(),
-            border_color: Color::hex("#A53A3D").unwrap(),
+            background_color: Srgba::hex("#F76161").unwrap().into(),
+            border_color: Srgba::hex("#A53A3D").unwrap().into(),
             border_radius: RoundUiBorder::all(20.0).into(),
             offset: RoundUiOffset::bottom_right(5.0).into(),
         }),
@@ -51,29 +51,29 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMateria
     let circle_materials = [
         // Circle without offset
         materials.add(RoundRectUiMaterial {
-            background_color: Color::hex("#F76161").unwrap(),
+            background_color: Srgba::hex("#F76161").unwrap().into(),
             border_radius: RoundUiBorder::all(SHAPE_SIZE).into(),
             ..default()
         }),
         // Circle with offset
         materials.add(RoundRectUiMaterial {
-            background_color: Color::hex("#F76161").unwrap(),
-            border_color: Color::hex("#A53A3D").unwrap(),
+            background_color: Srgba::hex("#F76161").unwrap().into(),
+            border_color: Srgba::hex("#A53A3D").unwrap().into(),
             border_radius: RoundUiBorder::all(SHAPE_SIZE).into(),
             offset: RoundUiOffset::bottom(10.0).into(),
         }),
         // Circle with border
         // NOTE: The border is not perfect
         materials.add(RoundRectUiMaterial {
-            background_color: Color::hex("#F76161").unwrap(),
-            border_color: Color::hex("#FFFFFF").unwrap(),
+            background_color: Srgba::hex("#F76161").unwrap().into(),
+            border_color: Srgba::hex("#FFFFFF").unwrap().into(),
             border_radius: RoundUiBorder::all(SHAPE_SIZE).into(),
             offset: RoundUiOffset::all(4.0).into(),
         }),
         // Circle with border-radius longer than sides
         materials.add(RoundRectUiMaterial {
-            background_color: Color::hex("#F76161").unwrap(),
-            border_color: Color::hex("#A53A3D").unwrap(),
+            background_color: Srgba::hex("#F76161").unwrap().into(),
+            border_color: Srgba::hex("#A53A3D").unwrap().into(),
             border_radius: RoundUiBorder::all(SHAPE_SIZE * 2.).into(),
             offset: RoundUiOffset::bottom(10.0).into(),
         }),

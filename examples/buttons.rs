@@ -34,8 +34,7 @@ pub struct ButtonStyle {
 
 impl FromWorld for ButtonStyle {
     fn from_world(world: &mut World) -> Self {
-        let cell = world.cell();
-        let mut materials = cell
+        let mut materials = world
             .get_resource_mut::<Assets<RoundRectUiMaterial>>()
             .expect("Failed to get Assets<RoundRectMaterial>");
 
@@ -43,22 +42,22 @@ impl FromWorld for ButtonStyle {
 
         Self {
             default_material: materials.add(RoundRectUiMaterial {
-                background_color: Color::hex("#F76161").unwrap(),
-                border_color: Color::hex("#A53A3D").unwrap(),
+                background_color: Srgba::hex("#F76161").unwrap().into(),
+                border_color: Srgba::hex("#A53A3D").unwrap().into(),
                 border_radius: border_radius.into(),
                 offset: RoundUiOffset::bottom(BUTTON_OFFSET_SIZE).into(),
             }),
             default_padding: UiRect::bottom(Val::Px(BUTTON_OFFSET_SIZE)),
             hover_material: materials.add(RoundRectUiMaterial {
-                background_color: Color::hex("#F61A39").unwrap(),
-                border_color: Color::hex("#A0102A").unwrap(),
+                background_color: Srgba::hex("#F61A39").unwrap().into(),
+                border_color: Srgba::hex("#A0102A").unwrap().into(),
                 border_radius: border_radius.into(),
                 offset: RoundUiOffset::bottom(BUTTON_OFFSET_SIZE).into(),
             }),
             hover_padding: UiRect::bottom(Val::Px(BUTTON_OFFSET_SIZE)),
             press_material: materials.add(RoundRectUiMaterial {
-                background_color: Color::hex("#A0102A").unwrap(),
-                border_color: Color::NONE,
+                background_color: Srgba::hex("#A0102A").unwrap().into(),
+                border_color: LinearRgba::NONE,
                 border_radius: border_radius.into(),
                 offset: RoundUiOffset::top(BUTTON_OFFSET_SIZE).into(),
             }),
@@ -91,8 +90,8 @@ fn setup(
     // Define a material for the panel.
     // This material looks like it has a border, because we applied an equal offset to all sides.
     let panel_material = superellipse_materials.add(SuperellipseUiMaterial {
-        background_color: Color::hex(PANEL_BACKGROUND_COLOR).unwrap(),
-        border_color: Color::hex(PANEL_BORDER_COLOR).unwrap(),
+        background_color: Srgba::hex(PANEL_BACKGROUND_COLOR).unwrap().into(),
+        border_color: Srgba::hex(PANEL_BORDER_COLOR).unwrap().into(),
         border_radius: RoundUiBorder::all(20.0).into(),
         border_thickness: 6.0,
     });
@@ -231,7 +230,7 @@ fn handle_button_actions(
                 ButtonAction::Play => (),
                 ButtonAction::Settings => (),
                 ButtonAction::Quit => {
-                    app_exit_events.send(AppExit);
+                    app_exit_events.send(AppExit::Success);
                 }
             }
         }

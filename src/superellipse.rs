@@ -27,11 +27,11 @@ impl Plugin for SuperellipseMaterialPlugin {
 pub struct SuperellipseUiMaterial {
     /// The background color of the material
     #[uniform(0)]
-    pub background_color: Color,
+    pub background_color: LinearRgba,
 
     /// The border color of the material
     #[uniform(0)]
-    pub border_color: Color,
+    pub border_color: LinearRgba,
 
     /// The border radius of each corner
     /// E.g. Vec4::new(bottom_right, top_right, bottom_left, top_left)
@@ -49,8 +49,8 @@ pub struct SuperellipseUiMaterial {
 impl Default for SuperellipseUiMaterial {
     fn default() -> Self {
         Self {
-            background_color: Color::WHITE,
-            border_color: Color::NONE,
+            background_color: LinearRgba::WHITE,
+            border_color: LinearRgba::NONE,
             border_radius: Vec4::splat(0.),
             border_thickness: 0.,
         }
