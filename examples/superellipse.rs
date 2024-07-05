@@ -28,8 +28,8 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<SuperellipseUiMate
     commands.spawn(Camera2dBundle::default());
 
     let border_radius: Vec4 = RoundUiBorder::all(PANEL_WIDTH / 4.).into();
-    let background_color = Color::hex("#5cb3af").unwrap();
-    let border_color = Color::WHITE;
+    let background_color: LinearRgba = Srgba::hex("#5cb3af").unwrap().into();
+    let border_color: LinearRgba = LinearRgba::WHITE;
 
     // Add the material
     let panel_material_superellipse = materials.add(SuperellipseUiMaterial {

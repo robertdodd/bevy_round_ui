@@ -1,6 +1,6 @@
 //! This example demonstrates spawning a superellipse material node.
 
-use bevy::prelude::*;
+use bevy::{color::palettes::css, prelude::*};
 
 use bevy_round_ui::prelude::*;
 
@@ -27,8 +27,8 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<SuperellipseUiMate
     commands.spawn(Camera2dBundle::default());
 
     let border_radius: Vec4 = RoundUiBorder::all(PANEL_WIDTH / 4.).into();
-    let background_color = Color::rgba(0.36078432, 0.7019608, 0.6862745, 0.5);
-    let border_color = Color::rgba(1., 1., 1., 0.25);
+    let background_color: LinearRgba = Color::srgba(0.36078432, 0.7019608, 0.6862745, 0.5).into();
+    let border_color: LinearRgba = Color::srgba(1., 1., 1., 0.25).into();
 
     // Add the material
     let panel_material_superellipse = materials.add(SuperellipseUiMaterial {
@@ -57,7 +57,7 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<SuperellipseUiMate
                     height: Val::Percent(100.0),
                     ..default()
                 },
-                background_color: Color::DARK_GRAY.into(),
+                background_color: css::DARK_GRAY.into(),
                 ..default()
             });
             p.spawn(NodeBundle {
@@ -67,7 +67,7 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<SuperellipseUiMate
                     height: Val::Percent(100.0),
                     ..default()
                 },
-                background_color: Color::ORANGE_RED.into(),
+                background_color: css::ORANGE_RED.into(),
                 ..default()
             });
         });

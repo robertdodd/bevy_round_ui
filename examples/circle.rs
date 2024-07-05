@@ -25,8 +25,8 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMateria
     // Add the material asset.
     // NOTE: To make a circle, the width, height and border radius should be equal
     let circle_material = materials.add(RoundRectUiMaterial {
-        background_color: Color::hex(CIRCLE_BACKGROUND_COLOR).unwrap(),
-        border_color: Color::hex(CIRCLE_BORDER_COLOR).unwrap(),
+        background_color: Srgba::hex(CIRCLE_BACKGROUND_COLOR).unwrap().into(),
+        border_color: Srgba::hex(CIRCLE_BORDER_COLOR).unwrap().into(),
         border_radius: RoundUiBorder::all(CIRCLE_DIAMETER).into(),
         offset: RoundUiOffset::bottom(CIRCLE_OFFSET_SIZE).into(),
     });

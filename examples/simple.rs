@@ -20,8 +20,8 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMateria
 
     // Add the material
     let panel_material = materials.add(RoundRectUiMaterial {
-        background_color: Color::hex("#F76161").unwrap(),
-        border_color: Color::hex("#A53A3D").unwrap(),
+        background_color: Srgba::hex("#F76161").unwrap().into(),
+        border_color: Srgba::hex("#A53A3D").unwrap().into(),
         border_radius: RoundUiBorder::all(20.0).into(),
         offset: RoundUiOffset::bottom(10.0).into(),
     });

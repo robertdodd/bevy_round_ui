@@ -1,6 +1,6 @@
 //! This example demonstrates how RoundUiMaterial nodes automaticall adjust when their node size changes.
 
-use bevy::prelude::*;
+use bevy::{color::palettes::css, prelude::*};
 
 use bevy_round_ui::prelude::*;
 
@@ -30,8 +30,8 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMateria
         .with_children(|p| {
             p.spawn(MaterialNodeBundle {
                 material: materials.add(RoundRectUiMaterial {
-                    background_color: Color::PINK,
-                    border_color: Color::WHITE,
+                    background_color: css::PINK.into(),
+                    border_color: LinearRgba::WHITE,
                     border_radius: RoundUiBorder::all(20.).into(),
                     offset: RoundUiOffset::all(6.).into(),
                 }),
@@ -49,8 +49,8 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMateria
             .with_children(|p| {
                 p.spawn(MaterialNodeBundle {
                     material: materials.add(RoundRectUiMaterial {
-                        background_color: Color::hex("5cb3af").unwrap(),
-                        border_color: Color::WHITE,
+                        background_color: Srgba::hex("5cb3af").unwrap().into(),
+                        border_color: LinearRgba::WHITE,
                         border_radius: RoundUiBorder::all(20.0).into(),
                         offset: RoundUiOffset::all(6.0).into(),
                     }),

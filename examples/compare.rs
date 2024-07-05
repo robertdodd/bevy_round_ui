@@ -1,6 +1,6 @@
 //! This example illustrates the difference between round rect and superellipse materials.
 
-use bevy::prelude::*;
+use bevy::{color::palettes::css, prelude::*};
 
 use bevy_round_ui::prelude::*;
 
@@ -14,7 +14,7 @@ fn main() {
 
 const PANEL_WIDTH: f32 = 400.0;
 const PANEL_HEIGHT: f32 = 200.0;
-const BORDER_THICKNESS: f32 = 40.;
+const BORDER_THICKNESS: f32 = 20.;
 
 #[derive(Component)]
 pub enum PanelSize {
@@ -35,8 +35,8 @@ fn setup(
     commands.spawn(Camera2dBundle::default());
 
     let border_radius: Vec4 = RoundUiBorder::all(PANEL_WIDTH / 4.).into();
-    let background_color = Color::hex("#F76161").unwrap();
-    let border_color = Color::WHITE;
+    let background_color: LinearRgba = Srgba::hex("#F76161").unwrap().into();
+    let border_color: LinearRgba = LinearRgba::WHITE;
 
     // Add the superellipse material
     let panel_material_superellipse = materials.add(SuperellipseUiMaterial {
@@ -91,7 +91,7 @@ fn setup(
                         justify_content: JustifyContent::Center,
                         ..default()
                     },
-                    border_color: Color::BLUE.into(),
+                    border_color: css::BLUE.into(),
                     ..default()
                 },
             ))
