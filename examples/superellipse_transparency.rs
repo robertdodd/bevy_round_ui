@@ -24,7 +24,7 @@ pub enum PanelSize {
 
 fn setup(mut commands: Commands, mut materials: ResMut<Assets<SuperellipseUiMaterial>>) {
     // Camera so we can see UI
-    commands.spawn(Camera2dBundle::default());
+    commands.spawn(Camera2d);
 
     let border_radius: Vec4 = RoundUiBorder::all(PANEL_WIDTH / 4.).into();
     let background_color: LinearRgba = Color::srgba(0.36078432, 0.7019608, 0.6862745, 0.5).into();
@@ -36,66 +36,56 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<SuperellipseUiMate
         border_color,
         border_radius,
         border_thickness: BORDER_THICKNESS,
+        ..default()
     });
 
     // Spawn 2 colored columns so we can see the transparency of the material
     commands
-        .spawn(NodeBundle {
-            style: Style {
-                flex_direction: FlexDirection::Row,
-                width: Val::Percent(100.0),
-                height: Val::Percent(100.0),
-                ..default()
-            },
+        .spawn((Node {
+            flex_direction: FlexDirection::Row,
+            width: Val::Percent(100.0),
+            height: Val::Percent(100.0),
             ..default()
-        })
+        },))
         .with_children(|p| {
-            p.spawn(NodeBundle {
-                style: Style {
+            p.spawn((
+                Node {
                     flex_direction: FlexDirection::Column,
                     width: Val::Percent(50.0),
                     height: Val::Percent(100.0),
                     ..default()
                 },
-                background_color: css::DARK_GRAY.into(),
-                ..default()
-            });
-            p.spawn(NodeBundle {
-                style: Style {
+                BackgroundColor(css::DARK_GRAY.into()),
+            ));
+            p.spawn((
+                Node {
                     flex_direction: FlexDirection::Column,
                     width: Val::Percent(50.0),
                     height: Val::Percent(100.0),
                     ..default()
                 },
-                background_color: css::ORANGE_RED.into(),
-                ..default()
-            });
+                BackgroundColor(css::ORANGE_RED.into()),
+            ));
         });
 
     // Spawn the material in the middle of the screen
     commands
-        .spawn(NodeBundle {
-            style: Style {
-                width: Val::Percent(100.0),
-                height: Val::Percent(100.0),
-                align_items: AlignItems::Center,
-                justify_content: JustifyContent::Center,
-                ..default()
-            },
+        .spawn((Node {
+            width: Val::Percent(100.0),
+            height: Val::Percent(100.0),
+            align_items: AlignItems::Center,
+            justify_content: JustifyContent::Center,
             ..default()
-        })
+        },))
         .with_children(|p| {
             p.spawn((
                 PanelSize::Short,
-                MaterialNodeBundle {
-                    material: panel_material_superellipse,
-                    style: Style {
-                        width: Val::Px(PANEL_WIDTH),
-                        height: Val::Px(PANEL_HEIGHT),
-                        ..default()
-                    },
+                Node {
+                    width: Val::Px(PANEL_WIDTH),
+                    height: Val::Px(PANEL_HEIGHT),
                     ..default()
                 },
+                MaterialNode(panel_material_superellipse),
             ));
         });
 }

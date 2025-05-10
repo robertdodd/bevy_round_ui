@@ -10,6 +10,8 @@ struct SuperellipseUiMaterial {
     @location(2) border_radius: vec4<f32>,
     /// Border thickness: ignored if `border_color.a == 0.0`
     @location(3) border_thickness: f32,
+    /// Inverse scale factor: must be updated to match the ComputedNode
+    @location(4) inverse_scale_factor: f32,
 }
 
 @group(1) @binding(0)
@@ -44,7 +46,7 @@ fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
     // adjust size by subtracting the border thickness
     var size = in.size;
     if is_border {
-        size -= vec2f(input.border_thickness);
+        size -= vec2f(input.border_thickness / input.inverse_scale_factor);
     }
 
     // adjust UVs around the middle of the rect, and convert to pixel
@@ -57,7 +59,7 @@ fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
 
     // IMPORTANT: Minimum border radius of 0.2, otherwise the approximation
     // behaves strangely.
-    let border_radius = max(input.border_radius / min_size, vec4f(0.2));
+    let border_radius = max(input.border_radius / input.inverse_scale_factor / min_size, vec4f(0.2));
 
     // Compute signed distance
     let d = approx_sd_super_ellipse(
@@ -77,7 +79,7 @@ fn fragment(in: UiVertexOutput) -> @location(0) vec4<f32> {
     // Apply border color
     var result = vec4f(col, alpha);
     if is_border {
-        let border_thickness_uv = input.border_thickness / min_size;
+        let border_thickness_uv = input.border_thickness / input.inverse_scale_factor / min_size;
         result = mix(result, input.border_color, 1.0 - smoothstep(0.0, border_thickness_uv, abs(d)));
     }
 

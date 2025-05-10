@@ -13,29 +13,20 @@ fn main() {
 
 fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMaterial>>) {
     // Camera so we can see UI
-    commands.spawn(Camera2dBundle::default());
+    commands.spawn(Camera2d);
 
     // Spawn two nested panels with flexible sizes in the middle of the window
     commands
-        .spawn(NodeBundle {
-            style: Style {
-                width: Val::Percent(100.0),
-                height: Val::Percent(100.0),
-                align_items: AlignItems::Center,
-                justify_content: JustifyContent::Center,
-                ..default()
-            },
+        .spawn((Node {
+            width: Val::Percent(100.0),
+            height: Val::Percent(100.0),
+            align_items: AlignItems::Center,
+            justify_content: JustifyContent::Center,
             ..default()
-        })
+        },))
         .with_children(|p| {
-            p.spawn(MaterialNodeBundle {
-                material: materials.add(RoundRectUiMaterial {
-                    background_color: css::PINK.into(),
-                    border_color: LinearRgba::WHITE,
-                    border_radius: RoundUiBorder::all(20.).into(),
-                    offset: RoundUiOffset::all(6.).into(),
-                }),
-                style: Style {
+            p.spawn((
+                Node {
                     width: Val::Percent(50.),
                     height: Val::Percent(50.),
                     align_items: AlignItems::Center,
@@ -44,17 +35,17 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMateria
                     padding: UiRect::all(Val::Px(12.)),
                     ..default()
                 },
-                ..default()
-            })
+                MaterialNode(materials.add(RoundRectUiMaterial {
+                    background_color: css::PINK.into(),
+                    border_color: LinearRgba::WHITE,
+                    border_radius: RoundUiBorder::all(20.).into(),
+                    offset: RoundUiOffset::all(6.).into(),
+                    ..default()
+                })),
+            ))
             .with_children(|p| {
-                p.spawn(MaterialNodeBundle {
-                    material: materials.add(RoundRectUiMaterial {
-                        background_color: Srgba::hex("5cb3af").unwrap().into(),
-                        border_color: LinearRgba::WHITE,
-                        border_radius: RoundUiBorder::all(20.0).into(),
-                        offset: RoundUiOffset::all(6.0).into(),
-                    }),
-                    style: Style {
+                p.spawn((
+                    Node {
                         width: Val::Percent(50.),
                         height: Val::Percent(50.),
                         align_items: AlignItems::Center,
@@ -63,16 +54,22 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMateria
                         padding: UiRect::all(Val::Px(12.)),
                         ..default()
                     },
-                    ..default()
-                })
+                    MaterialNode(materials.add(RoundRectUiMaterial {
+                        background_color: Srgba::hex("5cb3af").unwrap().into(),
+                        border_color: LinearRgba::WHITE,
+                        border_radius: RoundUiBorder::all(20.0).into(),
+                        offset: RoundUiOffset::all(6.0).into(),
+                        ..default()
+                    })),
+                ))
                 .with_children(|p| {
-                    p.spawn(TextBundle::from_section(
-                        "Resize the window to see how flexible I am",
-                        TextStyle {
-                            color: Color::WHITE,
+                    p.spawn((
+                        Text::new("Resize the window to see how flexible I am"),
+                        TextFont {
                             font_size: 20.,
                             ..default()
                         },
+                        TextColor::WHITE,
                     ));
                 });
             });

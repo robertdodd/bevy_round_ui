@@ -1,6 +1,11 @@
-use bevy::{asset::load_internal_asset, prelude::*, render::render_resource::*};
+use bevy::{
+    asset::{load_internal_asset, weak_handle},
+    prelude::*,
+    render::render_resource::*,
+};
 
-pub const SUPERELLIPSE_SHADER_HANDLE: Handle<Shader> = Handle::weak_from_u128(84071151984186645753);
+#[rustfmt::skip]
+pub const SUPERELLIPSE_SHADER_HANDLE: Handle<Shader> = weak_handle!("0196b79a-31a5-7a86-9a00-d1f63e0982f0");
 
 /// Plugin which adds a `SuperellipseUiMaterial` to the app.
 pub struct SuperellipseMaterialPlugin;
@@ -14,7 +19,19 @@ impl Plugin for SuperellipseMaterialPlugin {
             Shader::from_wgsl
         );
 
-        app.add_plugins(UiMaterialPlugin::<SuperellipseUiMaterial>::default());
+        app.add_plugins(UiMaterialPlugin::<SuperellipseUiMaterial>::default())
+            .add_systems(PreUpdate, update_superellipse_inverse_scale_factor);
+    }
+}
+
+pub fn update_superellipse_inverse_scale_factor(
+    query: Query<(&ComputedNode, &MaterialNode<SuperellipseUiMaterial>)>,
+    mut materials: ResMut<Assets<SuperellipseUiMaterial>>,
+) {
+    for (computed_node, material) in &query {
+        if let Some(mat) = materials.get_mut(material) {
+            mat.inverse_scale_factor = computed_node.inverse_scale_factor();
+        }
     }
 }
 
@@ -44,6 +61,10 @@ pub struct SuperellipseUiMaterial {
     /// The thickness of the border
     #[uniform(0)]
     pub border_thickness: f32,
+
+    /// The ComputedNode inverse scale factor
+    #[uniform(0)]
+    pub inverse_scale_factor: f32,
 }
 
 impl Default for SuperellipseUiMaterial {
@@ -53,6 +74,7 @@ impl Default for SuperellipseUiMaterial {
             border_color: LinearRgba::NONE,
             border_radius: Vec4::splat(0.),
             border_thickness: 0.,
+            inverse_scale_factor: 1.,
         }
     }
 }
