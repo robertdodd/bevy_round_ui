@@ -16,7 +16,19 @@ impl Plugin for RoundRectMaterialPlugin {
             Shader::from_wgsl
         );
 
-        app.add_plugins(UiMaterialPlugin::<RoundRectUiMaterial>::default());
+        app.add_plugins(UiMaterialPlugin::<RoundRectUiMaterial>::default())
+            .add_systems(PreUpdate, update_round_rect_inverse_scale_factor);
+    }
+}
+
+pub fn update_round_rect_inverse_scale_factor(
+    query: Query<(&ComputedNode, &MaterialNode<RoundRectUiMaterial>)>,
+    mut materials: ResMut<Assets<RoundRectUiMaterial>>,
+) {
+    for (computed_node, material) in &query {
+        if let Some(mat) = materials.get_mut(material) {
+            mat.inverse_scale_factor = computed_node.inverse_scale_factor();
+        }
     }
 }
 
@@ -41,6 +53,42 @@ pub struct RoundRectUiMaterial {
     /// E.g. Vec4::new((top, left, bottom, right)
     #[uniform(0)]
     pub offset: Vec4,
+
+    /// The ComputedNode inverse scale factor
+    #[uniform(0)]
+    pub inverse_scale_factor: f32,
+
+    /// The background color of the material
+    #[uniform(0)]
+    pub turbulence_color: LinearRgba,
+
+    /// The size of the material on screen in pixels
+    #[uniform(0)]
+    pub power: f32,
+
+    /// Time
+    #[uniform(0)]
+    pub time: f32,
+
+    /// Screen resolution
+    #[uniform(0)]
+    pub resolution: Vec2,
+
+    /// Value if used as progress bar
+    #[uniform(0)]
+    pub value: f32,
+    /*
+
+    #[texture(1)]
+    #[sampler(2)]
+    pub texture0: Option<Handle<Image>>,
+    #[texture(3)]
+    #[sampler(4)]
+    pub texture1: Option<Handle<Image>>,
+    #[texture(5)]
+    #[sampler(6)]
+    pub texture2: Option<Handle<Image>>,
+    */
 }
 
 impl Default for RoundRectUiMaterial {
@@ -50,6 +98,18 @@ impl Default for RoundRectUiMaterial {
             border_color: LinearRgba::NONE,
             border_radius: Vec4::splat(0.),
             offset: Vec4::splat(0.),
+            inverse_scale_factor: 1.,
+
+            turbulence_color: LinearRgba::RED,
+            power: 1f32,
+            time: 0f32,
+            resolution: Vec2::new(1024.0, 768.0),
+            value: 1f32,
+            /*
+            texture0: None,
+            texture1: None,
+            texture2: None,
+            */
         }
     }
 }

@@ -32,7 +32,7 @@ fn setup(
     mut old_materials: ResMut<Assets<RoundRectUiMaterial>>,
 ) {
     // Camera so we can see UI
-    commands.spawn(Camera2dBundle::default());
+    commands.spawn(Camera2d);
 
     let border_radius: Vec4 = RoundUiBorder::all(PANEL_WIDTH / 4.).into();
     let background_color: LinearRgba = Srgba::hex("#F76161").unwrap().into();
@@ -44,6 +44,7 @@ fn setup(
         border_color,
         border_radius,
         border_thickness: BORDER_THICKNESS,
+        ..default()
     });
     // Add the round rect material
     let panel_material_round_rect = old_materials.add(RoundRectUiMaterial {
@@ -51,17 +52,15 @@ fn setup(
         border_color,
         border_radius,
         offset: RoundUiOffset::all(BORDER_THICKNESS / 2.).into(),
+        ..default()
     });
 
     // Spawn help text
     commands
-        .spawn(NodeBundle {
-            style: Style {
-                flex_direction: FlexDirection::Column,
-                ..default()
-            },
+        .spawn((Node {
+            flex_direction: FlexDirection::Column,
             ..default()
-        })
+        },))
         .with_children(|p| {
             help_text(p, "Toggle Material:    ENTER");
             help_text(p, "Toggle Height:      SPACE");
@@ -70,67 +69,55 @@ fn setup(
 
     // Spawn the material in the middle of the screen
     commands
-        .spawn(NodeBundle {
-            style: Style {
-                width: Val::Percent(100.0),
-                height: Val::Percent(100.0),
-                align_items: AlignItems::Center,
-                justify_content: JustifyContent::Center,
-                ..default()
-            },
+        .spawn((Node {
+            width: Val::Percent(100.0),
+            height: Val::Percent(100.0),
+            align_items: AlignItems::Center,
+            justify_content: JustifyContent::Center,
             ..default()
-        })
+        },))
         .with_children(|p| {
             // Spawn a wrapper around the material node with a blue border
             p.spawn((
                 PanelBorder(true),
-                NodeBundle {
-                    style: Style {
-                        border: UiRect::all(Val::Px(1.)),
-                        align_items: AlignItems::Center,
-                        justify_content: JustifyContent::Center,
-                        ..default()
-                    },
-                    border_color: css::BLUE.into(),
+                Node {
+                    border: UiRect::all(Val::Px(1.)),
+                    align_items: AlignItems::Center,
+                    justify_content: JustifyContent::Center,
                     ..default()
                 },
+                BorderColor(css::BLUE.into()),
             ))
             .with_children(|p| {
                 // Spawn a superellipse material, displayed by default
                 p.spawn((
                     PanelSize::Short,
-                    MaterialNodeBundle {
-                        material: panel_material_superellipse,
-                        style: Style {
-                            width: Val::Px(PANEL_WIDTH),
-                            height: Val::Px(PANEL_HEIGHT),
-                            ..default()
-                        },
+                    Node {
+                        width: Val::Px(PANEL_WIDTH),
+                        height: Val::Px(PANEL_HEIGHT),
                         ..default()
                     },
+                    MaterialNode(panel_material_superellipse),
                 ));
                 // Spawn a round rect material, hidden by default
                 p.spawn((
                     PanelSize::Short,
-                    MaterialNodeBundle {
-                        material: panel_material_round_rect,
-                        style: Style {
-                            width: Val::Px(PANEL_WIDTH),
-                            height: Val::Px(PANEL_HEIGHT),
-                            display: Display::None,
-                            ..default()
-                        },
+                    Node {
+                        width: Val::Px(PANEL_WIDTH),
+                        height: Val::Px(PANEL_HEIGHT),
+                        display: Display::None,
                         ..default()
                     },
+                    MaterialNode(panel_material_round_rect),
                 ));
             });
         });
 }
 
 fn help_text(p: &mut ChildBuilder, val: impl Into<String>) {
-    p.spawn(TextBundle::from_section(
-        val,
-        TextStyle {
+    p.spawn((
+        Text::new(val),
+        TextFont {
             font_size: 24.,
             ..default()
         },
@@ -139,8 +126,8 @@ fn help_text(p: &mut ChildBuilder, val: impl Into<String>) {
 
 fn handle_keys(
     keys: Res<ButtonInput<KeyCode>>,
-    mut query: Query<(&mut PanelSize, &mut Style)>,
-    mut border_query: Query<(&mut PanelBorder, &mut Style), Without<PanelSize>>,
+    mut query: Query<(&mut PanelSize, &mut Node)>,
+    mut border_query: Query<(&mut PanelBorder, &mut Node), Without<PanelSize>>,
 ) {
     // Change height when "Space" is pressed
     if keys.just_pressed(KeyCode::Space) {

@@ -25,6 +25,21 @@ pub mod prelude {
             app.add_plugins(RoundRectMaterialPlugin);
             #[cfg(feature = "superellipse")]
             app.add_plugins(SuperellipseMaterialPlugin);
+
+            app.add_systems(Update, timer_update);
+        }
+    }
+
+    fn timer_update(
+        mut rect_materials: ResMut<Assets<RoundRectUiMaterial>>,
+        mut ellipse_materials: ResMut<Assets<SuperellipseUiMaterial>>,
+        time: Res<Time>,
+    ) {
+        for (_, material) in rect_materials.iter_mut() {
+            material.time = time.elapsed_secs();
+        }
+        for (_, material) in ellipse_materials.iter_mut() {
+            material.time = time.elapsed_secs();
         }
     }
 }

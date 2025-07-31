@@ -89,6 +89,7 @@ allows you to toggle between the superellipse and round-rect materials to easily
 
 | `bevy_round_ui` | `bevy` |
 |:----------------|:-------|
+| `4.x`           | `0.15` |
 | `1.x` - `2.x`   | `0.13` |
 | `0.2`           | `0.13` |
 | `0.1`           | `0.12` |

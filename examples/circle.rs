@@ -20,7 +20,7 @@ const CIRCLE_BORDER_COLOR: &str = "#A53A3D";
 
 fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMaterial>>) {
     // Camera so we can see UI
-    commands.spawn(Camera2dBundle::default());
+    commands.spawn(Camera2d);
 
     // Add the material asset.
     // NOTE: To make a circle, the width, height and border radius should be equal
@@ -29,29 +29,26 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMateria
         border_color: Srgba::hex(CIRCLE_BORDER_COLOR).unwrap().into(),
         border_radius: RoundUiBorder::all(CIRCLE_DIAMETER).into(),
         offset: RoundUiOffset::bottom(CIRCLE_OFFSET_SIZE).into(),
+        ..default()
     });
 
     // Spawn a round material node in the middle of the screen
     commands
-        .spawn(NodeBundle {
-            style: Style {
-                width: Val::Percent(100.0),
-                height: Val::Percent(100.0),
-                align_items: AlignItems::Center,
-                justify_content: JustifyContent::Center,
-                ..default()
-            },
+        .spawn((Node {
+            width: Val::Percent(100.0),
+            height: Val::Percent(100.0),
+            align_items: AlignItems::Center,
+            justify_content: JustifyContent::Center,
             ..default()
-        })
+        },))
         .with_children(|p| {
-            p.spawn(MaterialNodeBundle {
-                material: circle_material,
-                style: Style {
+            p.spawn((
+                Node {
                     width: Val::Px(CIRCLE_DIAMETER),
                     height: Val::Px(CIRCLE_DIAMETER),
                     ..default()
                 },
-                ..default()
-            });
+                MaterialNode(circle_material),
+            ));
         });
 }

@@ -17,7 +17,7 @@ const SPACER_SIZE: f32 = 20.;
 
 fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMaterial>>) {
     // Camera so we can see UI
-    commands.spawn(Camera2dBundle::default());
+    commands.spawn(Camera2d);
 
     let rect_materials = [
         // Round rect without offset
@@ -32,6 +32,7 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMateria
             border_color: Srgba::hex("#A53A3D").unwrap().into(),
             border_radius: RoundUiBorder::all(20.0).into(),
             offset: RoundUiOffset::bottom(10.0).into(),
+            ..default()
         }),
         // Round rect with border
         materials.add(RoundRectUiMaterial {
@@ -39,6 +40,7 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMateria
             border_color: Srgba::hex("#FFFFFF").unwrap().into(),
             border_radius: RoundUiBorder::all(20.0).into(),
             offset: RoundUiOffset::all(4.0).into(),
+            ..default()
         }),
         // Round rect with offset to bottom right
         materials.add(RoundRectUiMaterial {
@@ -46,6 +48,7 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMateria
             border_color: Srgba::hex("#A53A3D").unwrap().into(),
             border_radius: RoundUiBorder::all(20.0).into(),
             offset: RoundUiOffset::bottom_right(5.0).into(),
+            ..default()
         }),
     ];
     let circle_materials = [
@@ -61,6 +64,7 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMateria
             border_color: Srgba::hex("#A53A3D").unwrap().into(),
             border_radius: RoundUiBorder::all(SHAPE_SIZE).into(),
             offset: RoundUiOffset::bottom(10.0).into(),
+            ..default()
         }),
         // Circle with border
         // NOTE: The border is not perfect
@@ -69,6 +73,7 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMateria
             border_color: Srgba::hex("#FFFFFF").unwrap().into(),
             border_radius: RoundUiBorder::all(SHAPE_SIZE).into(),
             offset: RoundUiOffset::all(4.0).into(),
+            ..default()
         }),
         // Circle with border-radius longer than sides
         materials.add(RoundRectUiMaterial {
@@ -76,47 +81,41 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<RoundRectUiMateria
             border_color: Srgba::hex("#A53A3D").unwrap().into(),
             border_radius: RoundUiBorder::all(SHAPE_SIZE * 2.).into(),
             offset: RoundUiOffset::bottom(10.0).into(),
+            ..default()
         }),
     ];
 
     // Spawn two rows of material nodes in the center of the screen
     commands
-        .spawn(NodeBundle {
-            style: Style {
-                width: Val::Percent(100.0),
-                height: Val::Percent(100.0),
-                align_items: AlignItems::Center,
-                justify_content: JustifyContent::Center,
-                flex_direction: FlexDirection::Column,
-                ..default()
-            },
+        .spawn((Node {
+            width: Val::Percent(100.0),
+            height: Val::Percent(100.0),
+            align_items: AlignItems::Center,
+            justify_content: JustifyContent::Center,
+            flex_direction: FlexDirection::Column,
             ..default()
-        })
+        },))
         .with_children(|p| {
             for row in [rect_materials.iter(), circle_materials.iter()] {
-                p.spawn(NodeBundle {
-                    style: Style {
-                        width: Val::Percent(100.0),
-                        align_items: AlignItems::Center,
-                        justify_content: JustifyContent::Center,
-                        ..default()
-                    },
+                p.spawn((Node {
+                    width: Val::Percent(100.0),
+                    align_items: AlignItems::Center,
+                    justify_content: JustifyContent::Center,
                     ..default()
-                })
-                .with_children(|p| {
-                    for material in row {
-                        p.spawn(MaterialNodeBundle {
-                            material: material.clone(),
-                            style: Style {
-                                margin: UiRect::all(Val::Px(SPACER_SIZE)),
-                                width: Val::Px(SHAPE_SIZE),
-                                height: Val::Px(SHAPE_SIZE),
-                                ..default()
-                            },
-                            ..default()
-                        });
-                    }
-                });
+                },))
+                    .with_children(|p| {
+                        for material in row {
+                            p.spawn((
+                                Node {
+                                    margin: UiRect::all(Val::Px(SPACER_SIZE)),
+                                    width: Val::Px(SHAPE_SIZE),
+                                    height: Val::Px(SHAPE_SIZE),
+                                    ..default()
+                                },
+                                MaterialNode(material.clone()),
+                            ));
+                        }
+                    });
             }
         });
 }

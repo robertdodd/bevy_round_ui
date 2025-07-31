@@ -25,7 +25,7 @@ pub enum PanelSize {
 
 fn setup(mut commands: Commands, mut materials: ResMut<Assets<SuperellipseUiMaterial>>) {
     // Camera so we can see UI
-    commands.spawn(Camera2dBundle::default());
+    commands.spawn(Camera2d);
 
     let border_radius: Vec4 = RoundUiBorder::all(PANEL_WIDTH / 4.).into();
     let background_color: LinearRgba = Srgba::hex("#5cb3af").unwrap().into();
@@ -37,61 +37,53 @@ fn setup(mut commands: Commands, mut materials: ResMut<Assets<SuperellipseUiMate
         border_color,
         border_radius,
         border_thickness: BORDER_THICKNESS,
+        ..default()
     });
 
     // Spawn help text
     commands
-        .spawn(NodeBundle {
-            style: Style {
-                flex_direction: FlexDirection::Column,
-                padding: UiRect::all(Val::Px(20.)),
-                ..default()
-            },
+        .spawn((Node {
+            flex_direction: FlexDirection::Column,
+            padding: UiRect::all(Val::Px(20.)),
             ..default()
-        })
+        },))
         .with_children(|p| {
             help_text(p, "Toggle Height:      SPACE");
         });
 
     // Spawn the material in the middle of the screen
     commands
-        .spawn(NodeBundle {
-            style: Style {
-                width: Val::Percent(100.0),
-                height: Val::Percent(100.0),
-                align_items: AlignItems::Center,
-                justify_content: JustifyContent::Center,
-                ..default()
-            },
+        .spawn((Node {
+            width: Val::Percent(100.0),
+            height: Val::Percent(100.0),
+            align_items: AlignItems::Center,
+            justify_content: JustifyContent::Center,
             ..default()
-        })
+        },))
         .with_children(|p| {
             p.spawn((
                 PanelSize::Short,
-                MaterialNodeBundle {
-                    material: panel_material_superellipse,
-                    style: Style {
-                        width: Val::Px(PANEL_WIDTH),
-                        height: Val::Px(PANEL_HEIGHT),
-                        ..default()
-                    },
+                Node {
+                    width: Val::Px(PANEL_WIDTH),
+                    height: Val::Px(PANEL_HEIGHT),
                     ..default()
                 },
+                MaterialNode(panel_material_superellipse),
             ));
         });
 }
 
 fn help_text(p: &mut ChildBuilder, val: impl Into<String>) {
-    p.spawn(TextBundle::from_section(
-        val,
-        TextStyle {
+    p.spawn((
+        Text::new(val),
+        TextFont {
             font_size: 24.,
             ..default()
         },
     ));
 }
 
-fn handle_keys(keys: Res<ButtonInput<KeyCode>>, mut query: Query<(&mut PanelSize, &mut Style)>) {
+fn handle_keys(keys: Res<ButtonInput<KeyCode>>, mut query: Query<(&mut PanelSize, &mut Node)>) {
     if keys.just_pressed(KeyCode::Space) {
         for (mut panel_size, mut style) in query.iter_mut() {
             *panel_size = match *panel_size {
